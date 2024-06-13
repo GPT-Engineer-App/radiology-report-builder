@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex } from "@chakra-ui/react";
+import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion } from "react-icons/fa";
+import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion, FaCog, FaBell, FaEnvelope } from "react-icons/fa";
 
 const Result = () => {
   const [reports, setReports] = useState([]);
   const [selectedSentences, setSelectedSentences] = useState([]);
   const [finalReport, setFinalReport] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     // Fetch previously generated radiological reports from the backend
@@ -86,7 +85,7 @@ const Result = () => {
           </Box>
         </Box>
         <Box flex="1" p={4}>
-          <Text fontSize="4xl" fontWeight="bold" mb={8}>Laudos AI</Text>
+          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" mb={8}>Laudos AI</Text>
           <Box bg={darkMode ? "#1E1E1C" : "#ECEDE6"} p={6} borderRadius="md" border="1px solid" borderColor="gray.600">
             <form method="POST" action="/generate_report">
               <VStack spacing={4} align="stretch">
@@ -104,7 +103,14 @@ const Result = () => {
           </Box>
         </Box>
       </Flex>
-      <Box as="footer" textAlign="center" py={4} position="absolute" bottom="0" w="full" color={darkMode ? "gray.400" : "#1E1E1C"}>
+      {isMobile && (
+        <Flex as="footer" position="fixed" bottom="0" w="full" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} justify="space-around" boxShadow="md">
+          <IconButton aria-label="Settings" icon={<FaCog />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+          <IconButton aria-label="Notifications" icon={<FaBell />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+          <IconButton aria-label="Messages" icon={<FaEnvelope />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+        </Flex>
+      )}
+      <Box as="footer" textAlign="center" py={4} position="absolute" bottom="0" w="full" color={darkMode ? "gray.400" : "#1E1E1C"} display={{ base: "none", md: "block" }}>
         <Text as="a" href="https://labs.laudai.online/" _hover={{ color: "#C7EAF3" }}>Labs Laudos AI</Text>
       </Box>
     </Box>
