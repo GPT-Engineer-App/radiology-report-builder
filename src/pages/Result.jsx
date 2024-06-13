@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex } from "@chakra-ui/react";
+import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex, IconButton } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion } from "react-icons/fa";
+import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion, FaCog, FaBell, FaEnvelope } from "react-icons/fa";
 
 const Result = () => {
   const [reports, setReports] = useState([]);
@@ -86,7 +86,7 @@ const Result = () => {
           </Box>
         </Box>
         <Box flex="1" p={4}>
-          <Text fontSize="4xl" fontWeight="bold" mb={8}>Laudos AI</Text>
+          <Text fontSize="3xl" fontWeight="bold" mb={8}>Laudos AI</Text>
           <Box bg={darkMode ? "#1E1E1C" : "#ECEDE6"} p={6} borderRadius="md" border="1px solid" borderColor="gray.600">
             <form method="POST" action="/generate_report">
               <VStack spacing={4} align="stretch">
@@ -106,6 +106,11 @@ const Result = () => {
       </Flex>
       <Box as="footer" textAlign="center" py={4} position="absolute" bottom="0" w="full" color={darkMode ? "gray.400" : "#1E1E1C"}>
         <Text as="a" href="https://labs.laudai.online/" _hover={{ color: "#C7EAF3" }}>Labs Laudos AI</Text>
+      </Box>
+      <Box display={{ base: "flex", md: "none" }} justifyContent="space-around" alignItems="center" position="fixed" bottom="0" w="full" bg={darkMode ? "#242421" : "#ECEDE6"} p={2} boxShadow="md">
+        <IconButton aria-label="Home" icon={<FaHome />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+        <IconButton aria-label="Notifications" icon={<FaBell />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+        <IconButton aria-label="Settings" icon={<FaCog />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
       </Box>
     </Box>
   );
