@@ -10,6 +10,7 @@ const Result = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     // Fetch previously generated radiological reports from the backend
@@ -41,9 +42,13 @@ const Result = () => {
     window.print();
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <Box bg={darkMode ? "#1E1E1C" : "#FCFDF9"} color={darkMode ? "#C7EAF3" : "#1E1E1C"} minH="100vh" transition="background-color 0.3s, color 0.3s">
-      <Button onClick={() => setSidebarOpen(!sidebarOpen)} display={{ base: "block", md: "none" }} position="absolute" top="10px" left="10px" bg="transparent" border="none" color={darkMode ? "#C7EAF3" : "#1E1E1C"} fontSize="20px" transition="color 0.3s">
+      <Button onClick={toggleSidebar} display={{ base: "block", md: "none" }} position="absolute" top="10px" left="10px" bg="transparent" border="none" color={darkMode ? "#C7EAF3" : "#1E1E1C"} fontSize="20px" transition="color 0.3s">
         <FaBars />
       </Button>
       <Flex as="nav" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} justify="space-between" align="center" boxShadow="md" position="fixed" top="0" w="full" zIndex="10" transition="background-color 0.3s">
@@ -58,21 +63,21 @@ const Result = () => {
         </Flex>
       </Flex>
       <Flex mt="16" h="full">
-        <Box as="aside" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} w={sidebarOpen ? "250px" : "60px"} transition="width 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s" boxShadow="md">
-          <Button bg="#1E1E1C" color="#C7EAF3" py={2} px={4} mb={4} w="full" display={sidebarOpen ? "flex" : "none"} alignItems="center" justifyContent="center" borderRadius="md" _hover={{ bg: "#216D77", color: "#1E1E1C" }}>
+        <Box as="aside" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} w={isSidebarOpen ? "250px" : "60px"} transition="width 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s" boxShadow="md">
+          <Button bg="#1E1E1C" color="#C7EAF3" py={2} px={4} mb={4} w="full" display={isSidebarOpen ? "flex" : "none"} alignItems="center" justifyContent="center" borderRadius="md" _hover={{ bg: "#216D77", color: "#1E1E1C" }}>
             <Text>New Report</Text>
             <Text ml={2} bg="gray.600" fontSize="xs" py={1} px={2} borderRadius="md">Ctrl I</Text>
           </Button>
           <VStack spacing={2} align="stretch">
             <Button as="a" href="/" variant="link" color="gray.400" _hover={{ color: "#C7EAF3" }} leftIcon={<FaHome />} display="flex" alignItems="center">
-              <Text display={sidebarOpen ? "block" : "none"}>Home</Text>
+              <Text display={isSidebarOpen ? "block" : "none"}>Home</Text>
             </Button>
             <Button as="a" href="/meus_laudos" variant="link" color="gray.400" _hover={{ color: "#C7EAF3" }} leftIcon={<FaFileAlt />} display="flex" alignItems="center">
-              <Text display={sidebarOpen ? "block" : "none"}>My Reports</Text>
+              <Text display={isSidebarOpen ? "block" : "none"}>My Reports</Text>
             </Button>
           </VStack>
-          <Box mt={4}>
-            <Text fontWeight="semibold" color={darkMode ? "#C7EAF3" : "#1E1E1C"} display={sidebarOpen ? "block" : "none"}>Recent Reports</Text>
+          <Box mt={4} display={isSidebarOpen ? "block" : "none"}>
+            <Text fontWeight="semibold" color={darkMode ? "#C7EAF3" : "#1E1E1C"}>Recent Reports</Text>
             {reports.map((report, index) => (
               <Box key={index} bg="#1E1E1C" p={2} mb={2} borderRadius="md" _hover={{ bg: "#216D77", color: "#1E1E1C" }} onClick={() => handleSentenceClick(report.report_content)}>
                 <Text color="#C7EAF3" fontSize="sm" mb={1}>{report.report_content}</Text>
