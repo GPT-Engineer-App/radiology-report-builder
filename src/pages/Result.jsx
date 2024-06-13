@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex } from "@chakra-ui/react";
+import { Container, Box, Text, Button, VStack, HStack, Input, Textarea, Flex, IconButton } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion } from "react-icons/fa";
+import { FaPrint, FaBars, FaSun, FaMoon, FaUser, FaHome, FaFileAlt, FaQuestion, FaCog, FaBell, FaEnvelope } from "react-icons/fa";
 
 const Result = () => {
   const [reports, setReports] = useState([]);
@@ -10,7 +10,7 @@ const Result = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Fetch previously generated radiological reports from the backend
@@ -43,7 +43,7 @@ const Result = () => {
   };
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen(prevState => !prevState);
   };
 
   return (
@@ -63,7 +63,7 @@ const Result = () => {
         </Flex>
       </Flex>
       <Flex mt="16" h="full">
-        <Box as="aside" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} w={isSidebarOpen ? "250px" : "60px"} transition="width 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s" boxShadow="md">
+        <Box as="aside" bg={darkMode ? "#242421" : "#ECEDE6"} p={4} w={isSidebarOpen ? { base: "full", md: "250px" } : { base: "0", md: "60px" }} transition="width 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s" boxShadow="md">
           <Button bg="#1E1E1C" color="#C7EAF3" py={2} px={4} mb={4} w="full" display={isSidebarOpen ? "flex" : "none"} alignItems="center" justifyContent="center" borderRadius="md" _hover={{ bg: "#216D77", color: "#1E1E1C" }}>
             <Text>New Report</Text>
             <Text ml={2} bg="gray.600" fontSize="xs" py={1} px={2} borderRadius="md">Ctrl I</Text>
@@ -86,7 +86,7 @@ const Result = () => {
           </Box>
         </Box>
         <Box flex="1" p={4}>
-          <Text fontSize="4xl" fontWeight="bold" mb={8}>Laudos AI</Text>
+          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" mb={8}>Laudos AI</Text>
           <Box bg={darkMode ? "#1E1E1C" : "#ECEDE6"} p={6} borderRadius="md" border="1px solid" borderColor="gray.600">
             <form method="POST" action="/generate_report">
               <VStack spacing={4} align="stretch">
@@ -104,7 +104,12 @@ const Result = () => {
           </Box>
         </Box>
       </Flex>
-      <Box as="footer" textAlign="center" py={4} position="absolute" bottom="0" w="full" color={darkMode ? "gray.400" : "#1E1E1C"}>
+      <Flex as="footer" justify="space-around" align="center" py={4} position="fixed" bottom="0" w="full" bg={darkMode ? "#242421" : "#ECEDE6"} display={{ base: "flex", md: "none" }}>
+        <IconButton aria-label="Settings" icon={<FaCog />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+        <IconButton aria-label="Notifications" icon={<FaBell />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+        <IconButton aria-label="Messages" icon={<FaEnvelope />} size="lg" variant="ghost" color={darkMode ? "#C7EAF3" : "#1E1E1C"} />
+      </Flex>
+      <Box as="footer" textAlign="center" py={4} position="absolute" bottom="0" w="full" color={darkMode ? "gray.400" : "#1E1E1C"} display={{ base: "none", md: "block" }}>
         <Text as="a" href="https://labs.laudai.online/" _hover={{ color: "#C7EAF3" }}>Labs Laudos AI</Text>
       </Box>
     </Box>
